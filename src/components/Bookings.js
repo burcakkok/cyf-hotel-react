@@ -3,26 +3,32 @@ import React, { useState, useEffect } from "react";
 import Search from "./Search.jsx";
 import SearchResults from "./SearchResults.jsx";
 
+let allBookings = [];
+
 const Bookings = () => {
+  const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    fetch("https://cyf-react.glitch.me/")
+    fetch("https://cyf-react.glitch.me")
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Something went wrong");
+        return response.json();
       })
       .then(data => {
+        if (data.error) {
+          alert(data.error);
+          throw new Error(data.error);
+        }
+        allBookings = data;
         setBookings(data);
+        setLoading(false);
       })
       .catch(error => console.log(error));
   }, []);
 
   const search = searchVal => {
     // console.info("TO DO!", searchVal);
-    const filteredBookings = bookings.filter(booking => {
+    const filteredBookings = allBookings.filter(booking => {
       return (
         booking.firstName.toLowerCase().includes(searchVal.toLowerCase()) ||
         booking.surname.toLowerCase().includes(searchVal.toLowerCase())
@@ -35,7 +41,7 @@ const Bookings = () => {
     <div className="App-content">
       <div className="container">
         <Search search={search} />
-        {bookings.length > 0 ? (
+        {!loading ? (
           <SearchResults bookings={bookings} />
         ) : (
           <h3 className="loading-data-h1">Loading..</h3>
