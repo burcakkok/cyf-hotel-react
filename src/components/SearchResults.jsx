@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 // import fakeBookings from "../data/fakeBookings";
-import moment from "moment";
 import RowInfo from "./RowInfo";
 import CustomerProfile from "./CostumerProfile";
 
@@ -11,7 +10,7 @@ const SearchResults = props => {
     setActiveCustomerId(Id);
   };
   function showProfile() {
-    if (activeCustomerId != null) {
+    if (activeCustomerId !== null) {
       return (
         <CustomerProfile
           customerId={activeCustomerId}
@@ -34,16 +33,13 @@ const SearchResults = props => {
             <th scope="col">Check In Date</th>
             <th scope="col">Check Out Date</th>
             <th scope="col">Nights</th>
+            <th scope="col" />
           </tr>
         </thead>
         <tbody>
           {props.bookings.map(booking => {
-            const checkIn = moment(booking.checkInDate);
-            const checkOut = moment(booking.checkOutDate);
-            const nightsCalculation = checkOut.diff(checkIn, "days");
             return (
               <RowInfo
-                nightsCalculation={nightsCalculation}
                 booking={booking}
                 handleOnSelectedCustomerId={handleOnSelectedCustomerId}
               />

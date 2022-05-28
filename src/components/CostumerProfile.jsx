@@ -21,7 +21,7 @@ const CustomerProfile = props => {
         <li>{`Name: ${customer.firstName}`}</li>
         <li>{`Email: ${customer.email}`}</li>
         <li>{`Phone Number: ${customer.phoneNumber}`}</li>
-        {customer.vip && <li>{`Vip: ${customer.vip}`}</li>}
+        <li>{`Vip: ${customer.vip ? "Yes" : "No"}`}</li>
       </ul>
       <button onClick={props.onClose} className="btn btn-primary">
         Close profile
